@@ -6,7 +6,7 @@ use std::io::stdin;
 struct Question{
     question : String ,
     options :  Vec<String>,
-    answer:String,
+    answer: String,
 }
 
 fn getInput(path : &str)-> Option<String> {
@@ -36,13 +36,28 @@ fn AddQuestion (questions : &mut Vec<Question>){
     questions.push(questionpush);
 }
 
-fn CheckAnswer(){
 
-}
 fn ShowQuestions(questions : &mut Vec<Question>){
     println!("Questions and Answers");
     for question in questions.iter(){
         println!("{:?}", question);
+
+    }
+}
+
+fn ShowQuestionsWNAns(questions : &mut Vec<Question> , score : &mut u32){
+    for question in questions.iter(){
+        println!("{:?} \n {:?}", question.question , question.options);
+        let chooseoption = getInput("Choose an option").unwrap();
+        if chooseoption == question.answer {
+            println!("You choose correct option");
+            *score +=1;
+            println!("Score : {} " , score);
+            continue;
+        }else {
+            println!("You choose wrong option");
+            continue;
+        }
     }
 }
 
@@ -57,21 +72,22 @@ fn main() {
                 println!("So you are Admin");
                 ShowQuestions(&mut questions);
                 AddQuestion(&mut questions);
-                println!("Add Question and Answer")
-
+                println!("Add Question and Answer");
+                continue;
             },
             2=>{
                 println!("So you are the Contestant");
+                ShowQuestionsWNAns(&mut questions , &mut score);
+                continue;
             },
+            3=>{
+                println!("Bye Bye ............");
+                break;
+            }
             _ =>{
                 println!("Enter a valid choice ");
                 continue;
             }
         }
-
-
-
     }
-
-
 }
